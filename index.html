@@ -59,13 +59,11 @@ button{
     font-weight:600
 }
 
-/* ===== Responsive ===== */
 @media (max-width:600px){
   .container{margin:10px;border-radius:10px}
   form{padding:15px}
 }
 
-/* ===== Modal ===== */
 .modal{
     display:none;
     position:fixed;
@@ -132,6 +130,7 @@ button{
 <option value="Rangoli">रांगोळी</option>
 </select>
 
+<!-- Dance -->
 <div id="danceSection" class="section">
 <label>नृत्य प्रकार</label>
 <select id="danceType">
@@ -146,12 +145,19 @@ button{
 <select id="ageGroup"></select>
 </div>
 
+<!-- Singing -->
 <div id="singingSection" class="section">
 <label>गायन प्रकार</label>
 <select id="singingType">
 <option>सोलो</option>
 <option>ग्रुप</option>
 </select>
+</div>
+
+<!-- Song -->
+<div id="songSection" class="section">
+<label>गाण्याची बोल</label>
+<input id="song">
 </div>
 
 <label>स्पर्धकाचे नाव <span class="star">*</span></label>
@@ -174,7 +180,6 @@ button{
 <div class="modal" id="successModal">
   <div class="modal-content">
     <h2>नोंद यशस्वी झाली आहे ✅</h2>
-    <p>नियमावली डाउनलोड करा</p>
     <a class="download-btn" target="_blank"
     href="https://drive.google.com/file/d/1ZCe07CRzmvSUuI6JWIgqY5d5NGHS1fnZ/view">
     नियमावली डाउनलोड</a>
@@ -208,8 +213,16 @@ danceType.addEventListener("change",()=>{
 function showSections(){
   danceSection.style.display="none";
   singingSection.style.display="none";
-  if(competition.value==="Dance") danceSection.style.display="block";
-  if(competition.value==="Singing") singingSection.style.display="block";
+  songSection.style.display="none";
+
+  if(competition.value==="Dance"){
+    danceSection.style.display="block";
+    songSection.style.display="block";
+  }
+  if(competition.value==="Singing"){
+    singingSection.style.display="block";
+    songSection.style.display="block";
+  }
 }
 
 regForm.addEventListener("submit",e=>{
@@ -223,6 +236,7 @@ regForm.addEventListener("submit",e=>{
       danceType:danceType.value,
       ageGroup:ageGroup.value,
       singingType:singingType.value,
+      song:song.value,
       participant:participant.value,
       mobile:mobile.value
     })
@@ -230,7 +244,7 @@ regForm.addEventListener("submit",e=>{
     successModal.style.display="block";
     regForm.reset();
     loadAge(defaultAge);
-  }).catch(()=>alert("Error"));
+  });
 });
 
 function closeModal(){
