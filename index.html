@@ -59,13 +59,18 @@ button{
     font-weight:600
 }
 
-/* ===== POPUP MODAL ===== */
+/* ===== Responsive ===== */
+@media (max-width:600px){
+  .container{margin:10px;border-radius:10px}
+  form{padding:15px}
+}
+
+/* ===== Modal ===== */
 .modal{
     display:none;
     position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
-    background:rgba(0,0,0,0.6);
+    inset:0;
+    background:rgba(0,0,0,.6);
     z-index:999;
 }
 .modal-content{
@@ -75,15 +80,6 @@ button{
     padding:25px;
     border-radius:14px;
     text-align:center;
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
-}
-.modal-content h2{
-    color:#28a745;
-    margin-bottom:15px;
-}
-.modal-content p{
-    font-weight:bold;
-    margin-bottom:20px;
 }
 .download-btn{
     display:block;
@@ -100,7 +96,6 @@ button{
     padding:8px 16px;
     border:none;
     border-radius:6px;
-    cursor:pointer;
 }
 </style>
 </head>
@@ -147,15 +142,8 @@ button{
 <option>शिशुगट</option>
 </select>
 
-<label>गाण्याची बोल</label>
-<input id="song">
-
 <label>वयोगट</label>
-<select id="ageGroup">
-<option>१ ली ते ३ री</option>
-<option>४ थी ते ६ वी</option>
-<option>७ वी ते १० वी</option>
-</select>
+<select id="ageGroup"></select>
 </div>
 
 <div id="singingSection" class="section">
@@ -176,54 +164,45 @@ button{
 
 </form>
 
-<div class="footer">नोंदणी Google Sheet मध्ये सेव्ह होईल</div>
+<div class="footer">
+👁️‍🗨️ Visitors: <span id="visitorCount">Loading...</span>
 </div>
 
-<!-- ===== POPUP ===== -->
+</div>
+
+<!-- Modal -->
 <div class="modal" id="successModal">
   <div class="modal-content">
     <h2>नोंद यशस्वी झाली आहे ✅</h2>
-    <p>चंपावती महोत्सव 2026 ची नियमावली डाउनलोड करा</p>
-
-    <a class="download-btn"
-       href="https://drive.google.com/file/d/1ZCe07CRzmvSUuI6JWIgqY5d5NGHS1fnZ/view"
-       target="_blank">
-       नियमावली डाउनलोड
-    </a>
-
+    <p>नियमावली डाउनलोड करा</p>
+    <a class="download-btn" target="_blank"
+    href="https://drive.google.com/file/d/1ZCe07CRzmvSUuI6JWIgqY5d5NGHS1fnZ/view">
+    नियमावली डाउनलोड</a>
     <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbytpgeBRf5LGYTiO19kV7ANFpoBwfMqyfTNaa-yCEkyYUr82JHVZaalxMQT8Qj4q7JRRA/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbytpgeBRf5LGYTiO19kV7ANFpoBwfMqyfTNaa-yCEkyYUr82JHVZaalxMQT8Qj4q7JRRA/exec";
 
-document.getElementById("regForm").addEventListener("submit", function(e){
-  e.preventDefault();
+const ageGroup=document.getElementById("ageGroup");
+const danceType=document.getElementById("danceType");
 
-  const data = {
-    taluka: taluka.value,
-    school: school.value,
-    competition: competition.value,
-    danceType: danceType.value,
-    song: song.value,
-    ageGroup: ageGroup.value,
-    singingType: singingType.value,
-    participant: participant.value,
-    mobile: mobile.value
-  };
+const defaultAge=["१ ली ते ३ री","४ थी ते ६ वी","७ वी ते १० वी"];
+const shishuAge=["Nursery","LKG","UKG"];
 
-  fetch(scriptURL,{
-    method:"POST",
-    body:JSON.stringify(data)
-  })
-  .then(()=>{
-    document.getElementById("successModal").style.display="block";
-    document.getElementById("regForm").reset();
-  })
-  .catch(()=>{
-    alert("कृपया पुन्हा प्रयत्न करा");
+function loadAge(list){
+  ageGroup.innerHTML="";
+  list.forEach(a=>{
+    let o=document.createElement("option");
+    o.textContent=a;
+    ageGroup.appendChild(o);
   });
+}
+loadAge(defaultAge);
+
+danceType.addEventListener("change",()=>{
+  danceType.value==="शिशुगट"?loadAge(shishuAge):loadAge(defaultAge);
 });
 
 function showSections(){
@@ -233,11 +212,36 @@ function showSections(){
   if(competition.value==="Singing") singingSection.style.display="block";
 }
 
+regForm.addEventListener("submit",e=>{
+  e.preventDefault();
+  fetch(scriptURL,{
+    method:"POST",
+    body:JSON.stringify({
+      taluka:taluka.value,
+      school:school.value,
+      competition:competition.value,
+      danceType:danceType.value,
+      ageGroup:ageGroup.value,
+      singingType:singingType.value,
+      participant:participant.value,
+      mobile:mobile.value
+    })
+  }).then(()=>{
+    successModal.style.display="block";
+    regForm.reset();
+    loadAge(defaultAge);
+  }).catch(()=>alert("Error"));
+});
+
 function closeModal(){
-  document.getElementById("successModal").style.display="none";
+  successModal.style.display="none";
 }
+
+/* Visitor Counter */
+fetch("https://api.countapi.xyz/hit/champavati-mhotsav/visits")
+.then(r=>r.json())
+.then(d=>visitorCount.innerText=d.value);
 </script>
 
 </body>
-
 </html>
