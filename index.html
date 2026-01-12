@@ -7,93 +7,58 @@
 
 <style>
 body{
-    font-family:Segoe UI,sans-serif;
-    background:linear-gradient(to right,#ffecd2,#fcb69f);
+  font-family:Segoe UI,sans-serif;
+  background:linear-gradient(to right,#ffecd2,#fcb69f);
 }
 .container{
-    max-width:750px;
-    margin:30px auto;
-    background:#fff;
-    border-radius:16px;
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
-    overflow:hidden;
+  max-width:750px;
+  margin:20px auto;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  overflow:hidden;
 }
 .header img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
+  width:100%;
+  height:220px;
+  object-fit:cover;
 }
 form{padding:25px}
 label{font-weight:600;margin-top:14px;display:block}
 .star{color:red}
 input,select{
-    width:100%;
-    padding:10px;
-    margin-top:6px;
-    border-radius:8px;
-    border:1px solid #ccc;
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 button{
-    margin-top:25px;
-    width:100%;
-    background:#ff6600;
-    color:#fff;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    font-size:17px;
-    cursor:pointer;
+  margin-top:25px;
+  width:100%;
+  background:#ff6600;
+  color:#fff;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  font-size:17px;
 }
 .section{
-    display:none;
-    background:#fff4e6;
-    padding:12px;
-    border-radius:10px;
-    margin-top:12px
+  display:none;
+  background:#fff4e6;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
 }
 .footer{
-    text-align:center;
-    padding:12px;
-    background:#fff4e6;
-    color:#8b0000;
-    font-weight:600
+  text-align:center;
+  padding:12px;
+  background:#fff4e6;
+  color:#8b0000;
+  font-weight:600;
 }
-
-@media (max-width:600px){
-  .container{margin:10px;border-radius:10px}
-  form{padding:15px}
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.6);
-    z-index:999;
-}
-.modal-content{
-    background:#fff;
-    max-width:400px;
-    margin:15% auto;
-    padding:25px;
-    border-radius:14px;
-    text-align:center;
-}
-.download-btn{
-    display:block;
-    background:#ff6600;
-    color:#fff;
-    padding:12px;
-    text-decoration:none;
-    border-radius:8px;
-    margin-bottom:15px;
-}
-.close-btn{
-    background:#555;
-    color:#fff;
-    padding:8px 16px;
-    border:none;
-    border-radius:6px;
+@media(max-width:600px){
+  .container{margin:10px}
 }
 </style>
 </head>
@@ -140,9 +105,6 @@ button{
 <option>कुटुंब नृत्य</option>
 <option>शिशुगट</option>
 </select>
-
-<label>वयोगट</label>
-<select id="ageGroup"></select>
 </div>
 
 <!-- Singing -->
@@ -152,6 +114,12 @@ button{
 <option>सोलो</option>
 <option>ग्रुप</option>
 </select>
+</div>
+
+<!-- Common Age -->
+<div id="ageSection" class="section">
+<label>वयोगट</label>
+<select id="ageGroup"></select>
 </div>
 
 <!-- Song -->
@@ -167,92 +135,63 @@ button{
 <input id="mobile" pattern="[0-9]{10}" required>
 
 <button type="submit">सबमिट करा</button>
-
 </form>
 
 <div class="footer">
-👁️‍🗨️ Visitors: <span id="visitorCount">Loading...</span>
+👁️‍🗨️ Visitors: <span id="visitorCount">0</span>
 </div>
 
-</div>
-
-<!-- Modal -->
-<div class="modal" id="successModal">
-  <div class="modal-content">
-    <h2>नोंद यशस्वी झाली आहे ✅</h2>
-    <a class="download-btn" target="_blank"
-    href="https://drive.google.com/file/d/1ZCe07CRzmvSUuI6JWIgqY5d5NGHS1fnZ/view">
-    नियमावली डाउनलोड</a>
-    <button class="close-btn" onclick="closeModal()">Close</button>
-  </div>
 </div>
 
 <script>
-const scriptURL="https://script.google.com/macros/s/AKfycbytpgeBRf5LGYTiO19kV7ANFpoBwfMqyfTNaa-yCEkyYUr82JHVZaalxMQT8Qj4q7JRRA/exec";
-
 const ageGroup=document.getElementById("ageGroup");
-const danceType=document.getElementById("danceType");
 
-const defaultAge=["१ ली ते ३ री","४ थी ते ६ वी","७ वी ते १० वी"];
+const normalAge=["१ ली ते ३ री","४ थी ते ६ वी","७ वी ते १० वी"];
 const shishuAge=["Nursery","LKG","UKG"];
 
 function loadAge(list){
   ageGroup.innerHTML="";
-  list.forEach(a=>{
+  list.forEach(v=>{
     let o=document.createElement("option");
-    o.textContent=a;
+    o.textContent=v;
     ageGroup.appendChild(o);
   });
 }
-loadAge(defaultAge);
 
-danceType.addEventListener("change",()=>{
-  danceType.value==="शिशुगट"?loadAge(shishuAge):loadAge(defaultAge);
+document.getElementById("danceType").addEventListener("change",e=>{
+  e.target.value==="शिशुगट"?loadAge(shishuAge):loadAge(normalAge);
 });
 
-function showSections(){
+function hideAll(){
   danceSection.style.display="none";
   singingSection.style.display="none";
+  ageSection.style.display="none";
   songSection.style.display="none";
+}
+
+function showSections(){
+  hideAll();
+  loadAge(normalAge);
 
   if(competition.value==="Dance"){
     danceSection.style.display="block";
+    ageSection.style.display="block";
     songSection.style.display="block";
   }
+
   if(competition.value==="Singing"){
     singingSection.style.display="block";
+    ageSection.style.display="block";
     songSection.style.display="block";
+  }
+
+  if(competition.value==="Acting" || competition.value==="Drawing" || competition.value==="Rangoli"){
+    ageSection.style.display="block";
   }
 }
 
-regForm.addEventListener("submit",e=>{
-  e.preventDefault();
-  fetch(scriptURL,{
-    method:"POST",
-    body:JSON.stringify({
-      taluka:taluka.value,
-      school:school.value,
-      competition:competition.value,
-      danceType:danceType.value,
-      ageGroup:ageGroup.value,
-      singingType:singingType.value,
-      song:song.value,
-      participant:participant.value,
-      mobile:mobile.value
-    })
-  }).then(()=>{
-    successModal.style.display="block";
-    regForm.reset();
-    loadAge(defaultAge);
-  });
-});
-
-function closeModal(){
-  successModal.style.display="none";
-}
-
-/* Visitor Counter */
-fetch("https://api.countapi.xyz/hit/champavati-mhotsav/visits")
+/* Visitor Counter – Working */
+fetch("https://api.countapi.xyz/update/champavati2026/visits/?amount=1")
 .then(r=>r.json())
 .then(d=>visitorCount.innerText=d.value);
 </script>
