@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>चंपावती महोत्सव | स्पर्धा नोंदणी</title>
+
+<style>
+body{
+    font-family:Segoe UI,sans-serif;
+    background:linear-gradient(to right,#ffecd2,#fcb69f);
+}
+.container{
+    max-width:750px;
+    margin:30px auto;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+    overflow:hidden;
+}
+.header img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+form{padding:25px}
+label{font-weight:600;margin-top:14px;display:block}
+.star{color:red}
+input,select{
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+button{
+    margin-top:25px;
+    width:100%;
+    background:#ff6600;
+    color:#fff;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    font-size:17px;
+    cursor:pointer;
+}
+.section{
+    display:none;
+    background:#fff4e6;
+    padding:12px;
+    border-radius:10px;
+    margin-top:12px
+}
+.footer{
+    text-align:center;
+    padding:12px;
+    background:#fff4e6;
+    color:#8b0000;
+    font-weight:600
+}
+
+/* ===== POPUP MODAL ===== */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.6);
+    z-index:999;
+}
+.modal-content{
+    background:#fff;
+    max-width:400px;
+    margin:15% auto;
+    padding:25px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+.modal-content h2{
+    color:#28a745;
+    margin-bottom:15px;
+}
+.modal-content p{
+    font-weight:bold;
+    margin-bottom:20px;
+}
+.download-btn{
+    display:block;
+    background:#ff6600;
+    color:#fff;
+    padding:12px;
+    text-decoration:none;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+.close-btn{
+    background:#555;
+    color:#fff;
+    padding:8px 16px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<img src="https://i.postimg.cc/PxPBCd0n/Screenshot_2026_01_11_125417.png">
+</div>
+
+<form id="regForm">
+
+<label>तालुका <span class="star">*</span></label>
+<select id="taluka" required>
+<option value="">निवडा</option>
+<option>बीड</option><option>माजलगाव</option><option>गेवराई</option>
+<option>धारूर</option><option>केज</option><option>वडवणी</option>
+<option>परळी</option><option>आष्टी</option><option>पाटोदा</option>
+<option>शिरूर (का.)</option><option>अंबाजोगाई</option>
+</select>
+
+<label>शाळेचे नाव <span class="star">*</span></label>
+<input id="school" required>
+
+<label>स्पर्धेचे नाव <span class="star">*</span></label>
+<select id="competition" required onchange="showSections()">
+<option value="">निवडा</option>
+<option value="Dance">नृत्य स्पर्धा</option>
+<option value="Singing">गीत गायन स्पर्धा</option>
+<option value="Acting">एकपात्री अभिनय</option>
+<option value="Drawing">चित्रकला</option>
+<option value="Rangoli">रांगोळी</option>
+</select>
+
+<div id="danceSection" class="section">
+<label>नृत्य प्रकार</label>
+<select id="danceType">
+<option>सोलो</option>
+<option>ग्रुप</option>
+<option>शिशुगट</option>
+</select>
+
+<label>गाण्याची बोल</label>
+<input id="song">
+
+<label>वयोगट</label>
+<select id="ageGroup">
+<option>१ ली ते ३ री</option>
+<option>४ थी ते ६ वी</option>
+<option>७ वी ते १० वी</option>
+</select>
+</div>
+
+<div id="singingSection" class="section">
+<label>गायन प्रकार</label>
+<select id="singingType">
+<option>सोलो</option>
+<option>ग्रुप</option>
+</select>
+</div>
+
+<label>स्पर्धकाचे नाव <span class="star">*</span></label>
+<input id="participant" required>
+
+<label>मोबाईल क्रमांक <span class="star">*</span></label>
+<input id="mobile" pattern="[0-9]{10}" required>
+
+<button type="submit">सबमिट करा</button>
+
+</form>
+
+<div class="footer">नोंदणी Google Sheet मध्ये सेव्ह होईल</div>
+</div>
+
+<!-- ===== POPUP ===== -->
+<div class="modal" id="successModal">
+  <div class="modal-content">
+    <h2>नोंद यशस्वी झाली आहे ✅</h2>
+    <p>चंपावती महोत्सव 2026 ची नियमावली डाउनलोड करा</p>
+
+    <a class="download-btn"
+       href="https://drive.google.com/file/d/1ZCe07CRzmvSUuI6JWIgqY5d5NGHS1fnZ/view"
+       target="_blank">
+       नियमावली डाउनलोड
+    </a>
+
+    <button class="close-btn" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbytpgeBRf5LGYTiO19kV7ANFpoBwfMqyfTNaa-yCEkyYUr82JHVZaalxMQT8Qj4q7JRRA/exec";
+
+document.getElementById("regForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const data = {
+    taluka: taluka.value,
+    school: school.value,
+    competition: competition.value,
+    danceType: danceType.value,
+    song: song.value,
+    ageGroup: ageGroup.value,
+    singingType: singingType.value,
+    participant: participant.value,
+    mobile: mobile.value
+  };
+
+  fetch(scriptURL,{
+    method:"POST",
+    body:JSON.stringify(data)
+  })
+  .then(()=>{
+    document.getElementById("successModal").style.display="block";
+    document.getElementById("regForm").reset();
+  })
+  .catch(()=>{
+    alert("कृपया पुन्हा प्रयत्न करा");
+  });
+});
+
+function showSections(){
+  danceSection.style.display="none";
+  singingSection.style.display="none";
+  if(competition.value==="Dance") danceSection.style.display="block";
+  if(competition.value==="Singing") singingSection.style.display="block";
+}
+
+function closeModal(){
+  document.getElementById("successModal").style.display="none";
+}
+</script>
+
+</body>
+</html>
