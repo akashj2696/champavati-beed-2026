@@ -3,197 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>चंपावती महोत्सव | स्पर्धा नोंदणी</title>
+<title>स्पर्धा नोंदणी फॉर्म</title>
 
 <style>
-body{
-  font-family:Segoe UI,sans-serif;
-  background:linear-gradient(to right,#ffecd2,#fcb69f);
-}
-.container{
-  max-width:750px;
-  margin:20px auto;
-  background:#fff;
-  border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,.25);
-  overflow:hidden;
-}
-.header img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-}
-form{padding:25px}
-label{font-weight:600;margin-top:14px;display:block}
-.star{color:red}
-input,select{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-button{
-  margin-top:25px;
-  width:100%;
-  background:#ff6600;
-  color:#fff;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  font-size:17px;
-}
-.section{
-  display:none;
-  background:#fff4e6;
-  padding:12px;
-  border-radius:10px;
-  margin-top:12px;
-}
-.footer{
-  text-align:center;
-  padding:12px;
-  background:#fff4e6;
-  color:#8b0000;
-  font-weight:600;
-}
-@media(max-width:600px){
-  .container{margin:10px}
-}
+body{font-family:Segoe UI;background:#ffe8d6}
+.container{max-width:800px;margin:20px auto;background:#fff;padding:20px;border-radius:12px}
+label{font-weight:600;margin-top:12px;display:block}
+input,select{width:100%;padding:8px;margin-top:5px;border-radius:6px;border:1px solid #ccc}
+.section{display:none;background:#fff4e6;padding:12px;margin-top:10px;border-radius:8px}
+.note{font-size:13px;color:#555;margin-top:4px}
+button{margin-top:20px;width:100%;padding:12px;background:#ff6600;color:#fff;border:none;border-radius:8px}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
-<div class="header">
-<img src="https://i.postimg.cc/PxPBCd0n/Screenshot_2026_01_11_125417.png">
-</div>
+<h2>स्पर्धा नोंदणी फॉर्म</h2>
 
 <form id="regForm">
 
-<label>तालुका <span class="star">*</span></label>
-<select id="taluka" required>
-<option value="">निवडा</option>
-<option>बीड</option><option>माजलगाव</option><option>गेवराई</option>
-<option>धारूर</option><option>केज</option><option>वडवणी</option>
-<option>परळी</option><option>आष्टी</option><option>पाटोदा</option>
-<option>शिरूर (का.)</option><option>अंबाजोगाई</option>
-</select>
-
-<label>शाळेचे नाव <span class="star">*</span></label>
-<input id="school" required>
-
-<label>स्पर्धेचे नाव <span class="star">*</span></label>
-<select id="competition" required onchange="showSections()">
+<label>स्पर्धेचे नाव</label>
+<select id="competition" onchange="showTypes()" required>
 <option value="">निवडा</option>
 <option value="Dance">नृत्य स्पर्धा</option>
 <option value="Singing">गीत गायन स्पर्धा</option>
 <option value="Acting">एकपात्री अभिनय</option>
-<option value="Drawing">चित्रकला</option>
-<option value="Rangoli">रांगोळी</option>
 </select>
 
-<!-- Dance -->
-<div id="danceSection" class="section">
-<label>नृत्य प्रकार</label>
-<select id="danceType">
-<option>सोलो</option>
-<option>ग्रुप</option>
-<option>जोडीनृत्य</option>
-<option>कुटुंब नृत्य</option>
-<option>शिशुगट</option>
-</select>
+<!-- Type -->
+<div id="typeSection" class="section">
+<label>स्पर्धा प्रकार</label>
+<select id="type" onchange="showForm()"></select>
 </div>
 
-<!-- Singing -->
-<div id="singingSection" class="section">
-<label>गायन प्रकार</label>
-<select id="singingType">
-<option>सोलो</option>
-<option>ग्रुप</option>
-</select>
+<!-- Group -->
+<div id="groupSection" class="section">
+<label>शाळेचे नाव</label><input id="school">
+<label>गाण्याचे नाव</label><input id="song">
+<label>वयोगट</label><input id="age">
+<label>एकूण विद्यार्थी संख्या</label><input id="count">
 </div>
 
-<!-- Common Age -->
-<div id="ageSection" class="section">
-<label>वयोगट</label>
-<select id="ageGroup"></select>
+<!-- Individual -->
+<div id="individualSection" class="section">
+<label>स्पर्धकाचे नाव</label><input id="participant">
+<label>शाळेचे नाव</label><input id="school2">
+<label>वयोगट</label><input id="age2">
 </div>
 
-<!-- Song -->
-<div id="songSection" class="section">
-<label>गाण्याची बोल</label>
-<input id="song">
+<!-- Pair (UPDATED) -->
+<div id="pairSection" class="section">
+<label>स्पर्धकांची नावे</label>
+<input id="pairNames" placeholder="उदा. राम पवार, श्याम देशमुख">
+<div class="note">※ दोन्ही स्पर्धकांची नावे स्वल्पविराम ( , ) ने लिहा</div>
+<label>शाळेचे नाव</label><input id="school3">
+<label>वयोगट</label><input id="age3">
 </div>
 
-<label>स्पर्धकाचे नाव <span class="star">*</span></label>
-<input id="participant" required>
-
-<label>मोबाईल क्रमांक <span class="star">*</span></label>
-<input id="mobile" pattern="[0-9]{10}" required>
+<!-- Family -->
+<div id="familySection" class="section">
+<label>स्पर्धकाचे नाव</label><input id="participant2">
+<label>शाळेचे नाव</label><input id="school4">
+<label>नाते</label><input id="relation">
+</div>
 
 <button type="submit">सबमिट करा</button>
 </form>
-
-<div class="footer">
-👁️‍🗨️ Visitors: <span id="visitorCount">0</span>
-</div>
-
 </div>
 
 <script>
-const ageGroup=document.getElementById("ageGroup");
-
-const normalAge=["१ ली ते ३ री","४ थी ते ६ वी","७ वी ते १० वी"];
-const shishuAge=["Nursery","LKG","UKG"];
-
-function loadAge(list){
-  ageGroup.innerHTML="";
-  list.forEach(v=>{
-    let o=document.createElement("option");
-    o.textContent=v;
-    ageGroup.appendChild(o);
-  });
-}
-
-document.getElementById("danceType").addEventListener("change",e=>{
-  e.target.value==="शिशुगट"?loadAge(shishuAge):loadAge(normalAge);
-});
+const scriptURL="https://script.google.com/macros/s/AKfycbytpgeBRf5LGYTiO19kV7ANFpoBwfMqyfTNaa-yCEkyYUr82JHVZaalxMQT8Qj4q7JRRA/exec";
 
 function hideAll(){
-  danceSection.style.display="none";
-  singingSection.style.display="none";
-  ageSection.style.display="none";
-  songSection.style.display="none";
+  groupSection.style.display="none";
+  individualSection.style.display="none";
+  pairSection.style.display="none";
+  familySection.style.display="none";
 }
 
-function showSections(){
-  hideAll();
-  loadAge(normalAge);
+function showTypes(){
+  typeSection.style.display="block";
+  type.innerHTML="<option value=''>निवडा</option>";
 
   if(competition.value==="Dance"){
-    danceSection.style.display="block";
-    ageSection.style.display="block";
-    songSection.style.display="block";
+    [
+      "समूह नृत्य",
+      "शिशुगट समूह नृत्य",
+      "वैयक्तिक नृत्य",
+      "जोडी नृत्य",
+      "कुटुंब नृत्य"
+    ].forEach(t=>{
+      type.innerHTML+=`<option>${t}</option>`;
+    });
   }
 
   if(competition.value==="Singing"){
-    singingSection.style.display="block";
-    ageSection.style.display="block";
-    songSection.style.display="block";
+    ["समूह गीत गायन","वैयक्तिक गीत गायन"].forEach(t=>{
+      type.innerHTML+=`<option>${t}</option>`;
+    });
   }
 
-  if(competition.value==="Acting" || competition.value==="Drawing" || competition.value==="Rangoli"){
-    ageSection.style.display="block";
+  if(competition.value==="Acting"){
+    typeSection.style.display="none";
+    hideAll();
+    individualSection.style.display="block";
   }
 }
 
-/* Visitor Counter – Working */
-fetch("https://api.countapi.xyz/update/champavati2026/visits/?amount=1")
-.then(r=>r.json())
-.then(d=>visitorCount.innerText=d.value);
+function showForm(){
+  hideAll();
+  if(type.value.includes("समूह")) groupSection.style.display="block";
+  if(type.value.includes("वैयक्तिक")) individualSection.style.display="block";
+  if(type.value.includes("जोडी")) pairSection.style.display="block";
+  if(type.value.includes("कुटुंब")) familySection.style.display="block";
+}
+
+regForm.addEventListener("submit",e=>{
+  e.preventDefault();
+  fetch(scriptURL,{
+    method:"POST",
+    body:JSON.stringify({
+      competition:competition.value,
+      type:type.value,
+      school:school.value||"",
+      song:song.value||"",
+      age:age.value||"",
+      count:count.value||"",
+      participant:participant.value||"",
+      pairNames:pairNames.value||"",
+      relation:relation.value||""
+    })
+  }).then(()=>alert("नोंद यशस्वी"));
+});
 </script>
 
 </body>
